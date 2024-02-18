@@ -2,6 +2,8 @@ import { apiConfig } from "../../db/routes";
 import { AppContext } from "../../server";
 import { getSchemaFromTable } from "../data/d1-data";
 import { singularize } from "../util/utils";
+// import Sugar from "sugar/string";
+import voca from "voca";
 
 export function getForm(ctx: AppContext, table) {
   let formFields: {
@@ -88,15 +90,22 @@ interface Field {
   tooltip?: string;
   description?: string;
   components?: Field[];
+  autoExpand?: boolean;
+  wysiwyg?: boolean;
+  rows?: number;
 }
 
 function getField(fieldName): Field {
   const disabled = fieldName == "id";
+  const type = getFieldType(fieldName);
   return {
-    type: getFieldType(fieldName),
+    type,
     key: fieldName,
-    label: fieldName,
+    label: voca.titleCase(voca.kebabCase(fieldName).replace('-', ' ')),
     disabled,
+    autoExpand: type === "textarea",
+    wysiwyg: type === "textarea",
+    rows: type === "textarea" ? 3 : undefined,
     // placeholder: "Enter your first name.",
     // input: true,
     // tooltip: "Enter your <strong>First Name</strong>",
@@ -105,5 +114,10 @@ function getField(fieldName): Field {
 }
 
 function getFieldType(fieldName) {
+  switch (fieldName) {
+    case 'body':
+      return 'textarea';
+      break;
+  }
   return fieldName === "password" ? "password" : "textfield";
 }

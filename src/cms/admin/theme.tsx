@@ -1,6 +1,7 @@
 import { ApiConfig, apiConfig } from "../../db/routes";
 import { Bindings } from "../types/bindings";
 import { FC } from "hono/jsx";
+import voca from "voca";
 
 export const Head = () => {
   return (
@@ -213,7 +214,9 @@ export const Layout: FC<{
                             class="nav-link"
                             href={"/admin/tables/" + item.route}
                           >
-                            {item.route}
+                            {voca.titleCase(
+                              voca.kebabCase(item.route).replace("-", " "),
+                            )}
                           </a>
                         </li>
                       );

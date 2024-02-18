@@ -2,6 +2,7 @@ import { ApiConfig, apiConfig } from "../../../db/routes";
 import { getDataListByPrefix } from "../../data/kv-data";
 import { Bindings } from "../../types/bindings";
 import { Layout } from "../theme";
+import voca from "voca";
 
 export async function loadAdminTable(ctx) {
   // await saveKVData(ctx.env.KVDATA, 'site1', 'content', {title: '20230508a'});
@@ -194,7 +195,7 @@ export async function loadAdmin(ctx) {
 
   const contentTypes = await getDataListByPrefix(
     ctx.env.KVDATA,
-    "site1::content-type::"
+    "site1::content-type::",
   );
 
   // console.log("load admin data", content);
@@ -403,7 +404,7 @@ export const ContentNewForm = (props: {
   return (
     <Layout
       env={props.env}
-      screenTitle={"New: " + props.table}
+      screenTitle={"New Entry: " + props.table}
       username={props.username}
     >
       <div id="formio" data-route={props.route}></div>
@@ -482,7 +483,7 @@ export const TopContentList = (props: {
                         href={"/admin/content/new/" + item.route}
                         class="btn btn-warning"
                       >
-                        New {item.table} record
+                        +New Entry
                       </a>
                     </td>
                   </tr>
@@ -503,7 +504,11 @@ export const TopContentTable = (props: {
   env: Bindings;
 }) => {
   return (
-    <Layout env={props.env} username={props.username} screenTitle={props.table}>
+    <Layout
+      env={props.env}
+      username={props.username}
+      screenTitle={voca.titleCase(props.table)}
+    >
       <div class="row">
         <div class="col-md-12">
           <div class="pb-2 mb-3">
@@ -512,7 +517,7 @@ export const TopContentTable = (props: {
               href={"/admin/content/new/" + props.route}
               class="btn btn-warning"
             >
-              New {props.table} record
+              + New Entry
             </a>
           </div>
           <div id="grid" data-route={props.table}></div>
