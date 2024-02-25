@@ -144,7 +144,7 @@ async function pickFileEventHandler(cb) {
 
 function setupComponents(data) {
   const fileFields = data.filter(
-    (c) => c.metaType === "file" || c.metaType === "file[]"
+    (c) => c.metaType === "file" || c.metaType === "file[]",
   );
   return {
     fileFields,
@@ -267,11 +267,11 @@ function onUploadSuccess(form) {
       let element = component.element;
       if (index > -1) {
         const textComponents = component.components.filter(
-          (c) => c.type === "textfield"
+          (c) => c.type === "textfield",
         );
         component = textComponents[index];
         element = document.querySelector(
-          `[name="data[${field}][${index}][${field}]"]`
+          `[name="data[${field}][${index}][${field}]"]`,
         );
       }
       console.log({ component, element });
@@ -281,8 +281,8 @@ function onUploadSuccess(form) {
           getFilePreviewElement(
             response?.uploadURL,
             type.includes("image"),
-            index
-          )
+            index,
+          ),
         );
       }
       if (component && response?.uploadURL) {
@@ -309,7 +309,7 @@ const addPreviewElement = (value, element, i, field) => {
     let regex = new RegExp(`\\.(${extensions.join("|")})$`, "i");
     element.insertAdjacentHTML(
       "afterend",
-      getFilePreviewElement(value, regex.test(value), i, field)
+      getFilePreviewElement(value, regex.test(value), i, field),
     );
   }
 };
@@ -325,7 +325,7 @@ function setupPickExistingButton(fileFields, form) {
           const tr = trs[i + 1];
           if (tr) {
             const button = tr.querySelector(
-              `button[data-field='${field.key}']`
+              `button[data-field='${field.key}']`,
             );
             const pickBtn = tr.querySelector(".btn-pick-existing");
             if (button && !pickBtn) {
@@ -338,7 +338,7 @@ function setupPickExistingButton(fileFields, form) {
                 pickFileEventHandler((v) => {
                   const input = td.querySelector("input");
                   const textComponents = component.components.filter(
-                    (c) => c.type === "textfield"
+                    (c) => c.type === "textfield",
                   );
                   textComponents[i].setValue(v);
                   addPreviewElement(v, input, i, field.key);
@@ -479,7 +479,7 @@ function editContent() {
     .get(`/v1/${routeWithoutAuth}/${contentId}?includeContentType`)
     .then((response) => {
       const { fileFields, contentType } = setupComponents(
-        response.data.contentType
+        response.data.contentType,
       );
       response.data.contentType = contentType;
       // handle array values to the formio format
@@ -544,7 +544,7 @@ function editContent() {
         });
         //datagrid comopnents
         const datagridComponents = form.components.filter(
-          (c) => c.type === "datagrid"
+          (c) => c.type === "datagrid",
         );
         console.log("datagridComponents", datagridComponents);
         datagridComponents.forEach((component) => {

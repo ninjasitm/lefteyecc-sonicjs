@@ -27,7 +27,6 @@ var contentTypeComponents;
 })();
 
 function editContentType() {
-
   const contentType = window.location.href.split("/").pop();
   console.log("contentType", contentType);
 
@@ -337,9 +336,8 @@ function onContentFormSave() {
     console.log(response.statusText);
     console.log(response.headers);
     console.log(response.config);
-    if(response.status === 200 || response.status === 201){
-      location.href = '/admin/content-types';
-
+    if (response.status === 200 || response.status === 201) {
+      location.href = "/admin/content-types";
     }
   });
 }

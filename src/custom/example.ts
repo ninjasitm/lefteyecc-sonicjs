@@ -20,7 +20,7 @@ example.get("/users", async (ctx) => {
     "users",
     params,
     ctx.req.url,
-    "fastest"
+    "fastest",
   );
   return ctx.json(data);
 });
@@ -60,7 +60,7 @@ example.get("/blog-posts-orm", async (ctx) => {
     params,
     ctx.req.url,
     "fastest",
-    func
+    func,
   );
 
   const end = Date.now();
@@ -93,7 +93,7 @@ async function getPagedBlogPostNext(ctx, url, params) {
   paramsNext.offset = paramsNext.limit + paramsNext.offset;
   const urlNext = ctx.req.url.replace(
     `offset=${params.offset}`,
-    `offset=${paramsNext.offset}`
+    `offset=${paramsNext.offset}`,
   );
   getPagedBlogPost(ctx, urlNext, paramsNext);
 }
@@ -124,7 +124,7 @@ async function getPagedBlogPost(ctx, url, params) {
     order by posts.updatedOn desc
     limit ?
     offset ?
-    `
+    `,
     )
       .bind(params.limit, params.offset)
       .all();
@@ -169,7 +169,7 @@ example.get("/blog-posts-d1", async (ctx) => {
     order by posts.updatedOn desc
     limit 10
     offset ?
-    `
+    `,
     )
     .bind(offset)
     .all();
@@ -213,7 +213,7 @@ example.get("/blog-posts/:id", async (ctx) => {
     left outer join categories
     on categoriesToPosts.categoryId = categories.id
     where posts.id = '${id}'
-    `
+    `,
     ).all();
 
     const post = data.results[0];
@@ -229,7 +229,7 @@ example.get("/blog-posts/:id", async (ctx) => {
     params,
     ctx.req.url,
     "fastest",
-    func
+    func,
   );
 
   const end = Date.now();

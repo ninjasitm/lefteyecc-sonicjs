@@ -52,7 +52,7 @@ app.use(
         ? origin
         : "https://sonicjs.com";
     },
-  })
+  }),
 );
 
 //request Logging

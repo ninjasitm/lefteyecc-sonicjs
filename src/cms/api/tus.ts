@@ -82,7 +82,7 @@ type UserParams = {
 async function cacheCompletedUploadResponse(
   request: Request,
   location: string,
-  offset: number
+  offset: number,
 ) {
   const url = new URL(request.url);
   url.pathname = location;
@@ -95,7 +95,7 @@ async function cacheCompletedUploadResponse(
         "Tus-Resumable": "1.0.0",
         "Cache-Control": "max-age=604800",
       },
-    })
+    }),
   );
 }
 const getTussleMiddleware = (() => {
@@ -106,7 +106,7 @@ const getTussleMiddleware = (() => {
     honoCtx: AppContext,
     mode: "create" | "update",
     id: string,
-    pathConfig: string
+    pathConfig: string,
   ) => {
     instance = new TussleCloudflareWorker({
       hooks: {
@@ -126,7 +126,7 @@ const getTussleMiddleware = (() => {
             authorized = await getOperationCreateResult(
               table?.access?.operation?.create,
               honoCtx,
-              params
+              params,
             );
           } else {
             authorized = !!(await getApiAccessControlResult(
@@ -136,7 +136,7 @@ const getTussleMiddleware = (() => {
               honoCtx,
               id,
               table.table,
-              params
+              params,
             ));
           }
           if (!authorized) {
@@ -179,7 +179,7 @@ const getTussleMiddleware = (() => {
           await cacheCompletedUploadResponse(
             ctx.originalRequest,
             location,
-            offset
+            offset,
           );
           return params;
         },
@@ -221,7 +221,7 @@ const handleGET = async (ctx: AppContext) => {
     table?.access?.item?.read || true,
     ctx,
     pathname,
-    table.table
+    table.table,
   );
 
   if (!accessControlResult) {

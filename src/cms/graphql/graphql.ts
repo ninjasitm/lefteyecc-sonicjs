@@ -23,7 +23,7 @@ export function setupGraphQl(app) {
     graphqlServer({
       schema,
       rootResolver,
-    })
+    }),
   );
 }
 

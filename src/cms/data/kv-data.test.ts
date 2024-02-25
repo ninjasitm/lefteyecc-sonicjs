@@ -18,14 +18,14 @@ describe("test KV data access tier", () => {
       "site",
       "ct",
       { foo: "bar" },
-      "12345"
+      "12345",
     );
     const rec2 = await saveKVData(
       env.KVDATA,
       "site",
       "ct",
       { foo: "bar" },
-      "23456"
+      "23456",
     );
 
     const data = await getDataListByPrefix(env.KVDATA, "", 2);
@@ -79,13 +79,12 @@ describe("test KV cache", () => {
     });
 
     const allCacheItems = await getKVCache(env.KVDATA);
-    console.log('allCacheItems', allCacheItems);
+    console.log("allCacheItems", allCacheItems);
 
     // //clear cache
     await clearKVCache(env.KVDATA);
 
     const allCacheItemsAfterClearCache = await getKVCache(env.KVDATA);
     expect(allCacheItemsAfterClearCache.keys.length).toEqual(0);
-
   });
 });

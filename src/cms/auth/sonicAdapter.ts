@@ -7,7 +7,7 @@ type D1Adapter = ReturnType<typeof d1>;
 
 export const sonicAdapter = (
   d1Adapter: D1Adapter,
-  kv: KVNamespace<string>
+  kv: KVNamespace<string>,
 ): InitializeAdapter<Adapter> => {
   return (LuciaError) => {
     const d1 = d1Adapter(LuciaError);

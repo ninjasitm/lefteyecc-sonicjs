@@ -48,13 +48,13 @@ content.get("/", async (ctx) => {
   } else if (contentType !== undefined) {
     content = await getDataByPrefix(
       ctx.env.KVDATA,
-      `site1::content::${contentType}`
+      `site1::content::${contentType}`,
     );
   } else {
     content = await getDataByPrefix(
       ctx.env.KVDATA,
       `site1::content::`,
-      fetchLimit
+      fetchLimit,
     );
   }
 
@@ -87,7 +87,7 @@ content.get("/:contentId", async (ctx) => {
   if (includeContentType !== undefined) {
     dataWithKey.contentType = await getContentType(
       ctx.env.KVDATA,
-      content.data.systemId
+      content.data.systemId,
     );
   }
 
@@ -99,7 +99,7 @@ content.get("/contents/:contype-type", async (ctx) => {
 
   const content = await getDataByPrefix(
     ctx.env.KVDATA,
-    `site1::content::${contentType}`
+    `site1::content::${contentType}`,
   );
   console.log("content", content);
   return ctx.json(content);
@@ -110,7 +110,7 @@ content.get("/contents-with-meta/:contype-type", async (ctx) => {
 
   const content = await getDataListByPrefix(
     ctx.env.KVDATA,
-    `site1::content::${contentType}`
+    `site1::content::${contentType}`,
   );
   console.log("content", content);
   return ctx.json(content);
@@ -131,7 +131,7 @@ content.post("/", async (ctx) => {
       ctx.env.KVDATA,
       content.data,
       timestamp,
-      id
+      id,
     );
     // console.log('result KV', result);
     // return ctx.json(id, 201);
@@ -145,7 +145,7 @@ content.post("/", async (ctx) => {
         ctx.env.D1DATA,
         ctx.env.KVDATA,
         content.data.table,
-        content.data
+        content.data,
       );
       // console.log('insertD1Data --->', result)
       return ctx.json(result.id, 201);
@@ -153,7 +153,7 @@ content.post("/", async (ctx) => {
       console.log(
         "error posting content " + content.data.table,
         error,
-        JSON.stringify(content.data, null, 2)
+        JSON.stringify(content.data, null, 2),
       );
     }
   }
@@ -176,7 +176,7 @@ content.put("/", async (ctx) => {
       ctx.env.KVDATA,
       content,
       timestamp,
-      content.id
+      content.id,
     );
     return ctx.text(content.id, 200);
   } catch (error) {

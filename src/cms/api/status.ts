@@ -22,7 +22,7 @@ status.get("/", async (ctx) => {
   //D1
   try {
     const { results } = await ctx.env.D1DATA.prepare(
-      "SELECT name, type, sql FROM sqlite_schema WHERE type IN ('index');"
+      "SELECT name, type, sql FROM sqlite_schema WHERE type IN ('index');",
     ).all();
     status.d1 = "ok";
     status.d1_indexes = results;
@@ -37,7 +37,7 @@ status.get("/", async (ctx) => {
       "users",
       {
         limit: 1,
-      }
+      },
     );
     status.drizzle = "ok";
   } catch (error) {

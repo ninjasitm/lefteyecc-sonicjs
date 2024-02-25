@@ -22,7 +22,7 @@ async function hashPassword(
   kdf: Bindings["AUTH_KDF"] = "pbkdf2",
   salt: string,
   iterations = 100000,
-  hash = "SHA-512"
+  hash = "SHA-512",
 ) {
   password = password.normalize("NFKC");
   kdf = kdf.toLowerCase() as Bindings["AUTH_KDF"];
@@ -41,7 +41,7 @@ async function hashPassword(
       passwordBuffer,
       { name: "PBKDF2" },
       false,
-      ["deriveBits"]
+      ["deriveBits"],
     );
     let dkLen = 64;
     switch (hash) {
@@ -60,7 +60,7 @@ async function hashPassword(
         hash,
       },
       baseKey,
-      dkLen * 8
+      dkLen * 8,
     );
 
     return {
@@ -70,7 +70,7 @@ async function hashPassword(
       iterations,
       hashedPassword: String.fromCharCode.apply(
         null,
-        new Uint8Array(hashedPassword)
+        new Uint8Array(hashedPassword),
       ),
     };
   } else {
@@ -137,7 +137,7 @@ export const initializeLucia = (db: D1Database, env: Bindings) => {
           env.AUTH_KDF,
           salt,
           getIterations(env.AUTH_ITERATIONS),
-          env.AUTH_HASH
+          env.AUTH_HASH,
         );
         if (hash.kdf === "pbkdf2") {
           return `snc:$:${hash.hashedPassword}:$:${salt}:$:${hash.hash}:$:${hash.iterations}`;
@@ -159,13 +159,13 @@ export const initializeLucia = (db: D1Database, env: Bindings) => {
             kdf,
             salt,
             getIterations(iterations),
-            hash
+            hash,
           );
           return constantTimeEqual(verifyHash.hashedPassword, hashedPassword);
         } else {
           return await validateLuciaPasswordHash(
             userPassword,
-            dbHash.substring(4)
+            dbHash.substring(4),
           );
         }
       },
@@ -222,7 +222,7 @@ export async function createUser<T extends string>(args: LuciaAPIArgs<T>) {
 
 export async function deleteUser<T extends string>(
   args: LuciaAPIArgs<T>,
-  id: string
+  id: string,
 ) {
   const { ctx } = args;
   const d1 = ctx.env.D1DATA;
@@ -240,7 +240,7 @@ export async function deleteUser<T extends string>(
 
 export async function updateUser<T extends string>(
   args: LuciaAPIArgs<T>,
-  id: string
+  id: string,
 ) {
   const { ctx, content } = args;
   const user = ctx.get("user");

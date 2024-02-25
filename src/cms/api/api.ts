@@ -50,7 +50,7 @@ tables.forEach((entry) => {
       true,
       ctx,
       params.id,
-      entry.table
+      entry.table,
     );
 
     if (typeof accessControlResult === "object") {
@@ -70,14 +70,14 @@ tables.forEach((entry) => {
         params,
         ctx.req.url,
         "fastest",
-        undefined
+        undefined,
       );
 
       if (entry.access?.item?.read) {
         const accessControlResult = await getItemReadResult(
           entry.access.item.read,
           ctx,
-          data
+          data,
         );
         if (!accessControlResult) {
           return ctx.text("Unauthorized", 401);
@@ -86,7 +86,7 @@ tables.forEach((entry) => {
       data.data = await filterReadFieldAccess(
         entry.access?.fields,
         ctx,
-        data.data
+        data.data,
       );
 
       if (entry.hooks?.afterOperation) {
@@ -122,7 +122,7 @@ tables.forEach((entry) => {
       true,
       ctx,
       id,
-      entry.table
+      entry.table,
     );
 
     if (typeof accessControlResult === "object") {
@@ -146,14 +146,14 @@ tables.forEach((entry) => {
       params,
       ctx.req.url,
       source,
-      undefined
+      undefined,
     );
 
     if (entry.access?.item?.read) {
       const accessControlResult = await getItemReadResult(
         entry.access.item.read,
         ctx,
-        data
+        data,
       );
       if (!accessControlResult) {
         return ctx.text("Unauthorized", 401);
@@ -191,7 +191,7 @@ tables.forEach((entry) => {
     let authorized = await getOperationCreateResult(
       entry?.access?.operation?.create,
       ctx,
-      content.data
+      content.data,
     );
     if (!authorized) {
       return ctx.text("Unauthorized", 401);
@@ -202,7 +202,7 @@ tables.forEach((entry) => {
       content.data = await filterCreateFieldAccess(
         entry?.access?.fields,
         ctx,
-        content.data
+        content.data,
       );
       if (entry?.hooks?.resolveInput?.create) {
         content.data = await entry.hooks.resolveInput.create(ctx, content.data);
@@ -211,7 +211,7 @@ tables.forEach((entry) => {
       const result = await insertRecord(
         ctx.env.D1DATA,
         ctx.env.KVDATA,
-        content
+        content,
       );
       console.log("create result", result);
 
@@ -221,7 +221,7 @@ tables.forEach((entry) => {
           "create",
           result?.data?.["id"],
           content,
-          result
+          result,
         );
       }
       return ctx.json(result?.data, 201);
@@ -252,7 +252,7 @@ tables.forEach((entry) => {
       ctx,
       id,
       entry.table,
-      content.data
+      content.data,
     );
 
     if (typeof accessControlResult === "object") {
@@ -274,20 +274,20 @@ tables.forEach((entry) => {
         entry.access?.fields,
         ctx,
         id,
-        content.data
+        content.data,
       );
       if (entry?.hooks?.resolveInput?.update) {
         content.data = await entry.hooks.resolveInput.update(
           ctx,
           id,
-          content.data
+          content.data,
         );
       }
       const result = await updateRecord(
         ctx.env.D1DATA,
         ctx.env.KVDATA,
         content,
-        params
+        params,
       );
       if (entry?.hooks?.afterOperation) {
         await entry.hooks.afterOperation(ctx, "update", id, content, result);
@@ -317,7 +317,7 @@ tables.forEach((entry) => {
       entry?.access?.item?.delete || true,
       ctx,
       id,
-      entry.table
+      entry.table,
     );
 
     if (typeof accessControlResult === "object") {
@@ -335,7 +335,7 @@ tables.forEach((entry) => {
       params,
       ctx.req.path,
       source || "fastest",
-      undefined
+      undefined,
     );
 
     if (record) {
@@ -379,12 +379,12 @@ api.get("/kv-test", async (ctx) => {
     JSON.stringify({ foo: "bar" }),
     {
       metadata: { createdOn },
-    }
+    },
   );
 
   const { value, metadata } = await ctx.env.KVDATA.getWithMetadata(
     "kv-test-key",
-    { type: "json" }
+    { type: "json" },
   );
 
   return ctx.json({ value, metadata });
@@ -412,7 +412,7 @@ api.get("/kv-test2", async (ctx) => {
     `cache::${cacheKey}`,
     {
       type: "json",
-    }
+    },
   );
 
   return ctx.json({ value, metadata });
@@ -550,7 +550,7 @@ api.get("/kv/:cacheKey", async (ctx) => {
 
   const cacheItem = await getRecordFromKvCache(
     ctx.env.KVDATA,
-    "http://127.0.0.1:8788/admin/api/users"
+    "http://127.0.0.1:8788/admin/api/users",
   );
   console.log("getting kv cache", cacheItem);
   return ctx.json(cacheItem);

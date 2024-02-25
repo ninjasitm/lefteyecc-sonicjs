@@ -56,7 +56,7 @@ it("should return a SQL select with limit", () => {
   console.log("params ---->", params);
   const clause = generateSelectSql("my-table", params);
   expect(clause).toBe(
-    "SELECT *, COUNT() OVER() AS total FROM my-table limit 2;"
+    "SELECT *, COUNT() OVER() AS total FROM my-table limit 2;",
   );
 });
 
@@ -66,7 +66,7 @@ it("should return a SQL select with offset", () => {
   console.log("params ---->", params);
   const clause = generateSelectSql("my-table", params);
   expect(clause).toBe(
-    "SELECT *, COUNT() OVER() AS total FROM my-table offset 2;"
+    "SELECT *, COUNT() OVER() AS total FROM my-table offset 2;",
   );
 });
 
@@ -76,7 +76,7 @@ it("should return a SQL select with limit and offset", () => {
   console.log("params ---->", params);
   const clause = generateSelectSql("my-table", params);
   expect(clause).toBe(
-    "SELECT *, COUNT() OVER() AS total FROM my-table limit 2 offset 2;"
+    "SELECT *, COUNT() OVER() AS total FROM my-table limit 2 offset 2;",
   );
 });
 
@@ -96,7 +96,7 @@ it("get should return results", async () => {
   const d1Result = await getD1DataByTable(
     __D1_BETA__D1DATA,
     "users",
-    undefined
+    undefined,
   );
 
   expect(d1Result.length).toBe(2);
@@ -122,7 +122,7 @@ it("updateD1Data should update record", async () => {
   const d1Result = await getD1DataByTable(
     __D1_BETA__D1DATA,
     "users",
-    undefined
+    undefined,
   );
 
   expect(d1Result.length).toBe(2);

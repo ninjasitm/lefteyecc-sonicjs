@@ -6,7 +6,7 @@ if (gridWrapperKV) {
         name: "Key",
         formatter: (viewLink) => gridjs.html(`${viewLink}`),
       },
-      "Created On"
+      "Created On",
     ],
     pagination: {
       limit: 10,
@@ -55,4 +55,3 @@ if (gridWrapperKV) {
     },
   }).render(gridWrapperKV);
 }
-

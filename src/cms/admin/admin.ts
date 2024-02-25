@@ -60,7 +60,7 @@ admin.get("/", async (ctx) => ctx.html(await loadApis(ctx)));
 admin.get("/login", async (ctx) => ctx.html(await loadLogin(ctx)));
 
 admin.get("/content/new/auth/users/setup", async (ctx) =>
-  ctx.html(await loadSetup(ctx))
+  ctx.html(await loadSetup(ctx)),
 );
 
 admin.get("/content/edit/:route/:id", async (ctx) => {
@@ -234,7 +234,7 @@ admin.get("/api/files", async (ctx) => {
                 }
               }
             });
-          })()
+          })(),
         );
       }
       promises.push(
@@ -245,7 +245,7 @@ admin.get("/api/files", async (ctx) => {
             { [field]: "IS NOT NULL" },
             `${fileFields}-${key}-${field}-files`,
             "fastest",
-            undefined
+            undefined,
           );
           records.data.forEach((record) => {
             let value = record[field];
@@ -265,7 +265,7 @@ admin.get("/api/files", async (ctx) => {
               }
             });
           });
-        })()
+        })(),
       );
     }
   }
@@ -274,7 +274,7 @@ admin.get("/api/files", async (ctx) => {
 });
 async function dataRoute(
   route: string,
-  ctx: Context<{ Bindings: Bindings; Variables: Variables }>
+  ctx: Context<{ Bindings: Bindings; Variables: Variables }>,
 ) {
   const start = Date.now();
 
@@ -290,7 +290,7 @@ async function dataRoute(
     params,
     ctx.req.url,
     "fastest",
-    undefined
+    undefined,
   );
 
   // console.log("===> records", records);

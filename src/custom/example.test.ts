@@ -16,7 +16,7 @@ it("get should return results and 200", async () => {
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
   let res = await app.fetch(req, env);
   expect(res.status).toBe(200);
@@ -32,7 +32,7 @@ it("get should return results and 200", async () => {
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
   let res2 = await app.fetch(req2, env);
   expect(res2.status).toBe(200);
@@ -48,7 +48,7 @@ it("get should return results and 200", async () => {
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
   let res3 = await app.fetch(req3, env);
   expect(res3.status).toBe(200);
@@ -68,7 +68,7 @@ it("get should return single result if id passed in", async () => {
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
   let res = await app.fetch(req, env);
   expect(res.status).toBe(200);
@@ -85,7 +85,7 @@ it("get should return single result if id passed in", async () => {
     {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-    }
+    },
   );
 
   let res2 = await app.fetch(req2, env);

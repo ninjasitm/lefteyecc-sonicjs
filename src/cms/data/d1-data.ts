@@ -95,7 +95,7 @@ export async function updateD1Data(
   d1,
   table,
   data,
-  params?: Record<string, any>
+  params?: Record<string, any>,
 ) {
   const db = drizzle(d1);
   const schemaTable = table ?? data.table;

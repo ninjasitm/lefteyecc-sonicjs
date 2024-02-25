@@ -65,15 +65,16 @@ export const DemoCredentials = (props: { showDemoCredentials?: boolean }) => {
       </div>
     );
   }
-  return (
-    <></>
-  )
+  return <></>;
 };
 
 export async function loadLogin(ctx) {
-  const demoDomain= ctx.env.demo_domain;
-  const showDemoCredentials = demoDomain && ctx.req.url.indexOf(demoDomain) > 0 ? true : false;
-  return <Login screenTitle="Login" showDemoCredentials={showDemoCredentials} />;
+  const demoDomain = ctx.env.demo_domain;
+  const showDemoCredentials =
+    demoDomain && ctx.req.url.indexOf(demoDomain) > 0 ? true : false;
+  return (
+    <Login screenTitle="Login" showDemoCredentials={showDemoCredentials} />
+  );
 }
 
 export const Setup = (props: { children?: string; screenTitle?: string }) => {

@@ -84,7 +84,7 @@ export async function getRecords(
   params,
   cacheKey,
   source = "fastest",
-  customDataFunction = undefined
+  customDataFunction = undefined,
 ): Promise<{ data: any; source: string; total: number; contentType?: any }> {
   log(ctx, { level: "verbose", message: "getRecords start", cacheKey });
   const cacheStatusValid = await isCacheValid();
@@ -160,7 +160,7 @@ export async function getRecords(
         executionCtx,
         cacheKey,
         kvData.data,
-        kvData.total
+        kvData.total,
       );
 
       return kvData;
@@ -192,7 +192,7 @@ export async function getRecords(
     d1Data = await getD1DataByTable(
       ctx.env.D1DATA ?? ctx.env.__D1_BETA__D1DATA,
       table,
-      params
+      params,
     );
     log(ctx, {
       level: "verbose",
@@ -250,7 +250,7 @@ export async function getRecords(
         data: d1Data,
         source: "kv",
         total,
-      })
+      }),
     );
   } else {
     await addToKvCache(ctx, ctx.env.KVDATA, cacheKey, {
@@ -274,13 +274,13 @@ async function dataAddToInMemoryCache(
   executionCtx,
   cacheKey,
   data,
-  total
+  total,
 ) {
   // HACK to support int testing
 
   if (executionCtx) {
     ctx.executionCtx.waitUntil(
-      addToInMemoryCache(ctx, cacheKey, { data, source: "cache", total })
+      addToInMemoryCache(ctx, cacheKey, { data, source: "cache", total }),
     );
   } else {
     return addToInMemoryCache(ctx, cacheKey, { data, source: "cache", total });

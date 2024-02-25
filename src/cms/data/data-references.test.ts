@@ -104,7 +104,7 @@ it("getRecords can accept custom function for retrieval of data", async () => {
     undefined,
     urlKey,
     "fastest",
-    func
+    func,
   );
 
   expect(result.data.foo).toBe("bar");
@@ -139,7 +139,7 @@ it("getRecords can accept custom function with parameters for retrieval of data"
     undefined,
     urlKey,
     "fastest",
-    func
+    func,
   );
 
   expect(data.comments.length).toBe(2);
@@ -153,7 +153,7 @@ it("getRecords can accept custom function with parameters for retrieval of data"
     undefined,
     urlKey,
     "fastest",
-    func
+    func,
   );
   expect(postCached.data.comments.length).toBe(2);
   expect(postCached.data.categories.length).toBe(2);

@@ -20,6 +20,8 @@ export const definition = {
   image: text("image"),
   images: text("images", { mode: "json" }).$type<string[]>(),
   tags: text("tags", { mode: "json" }).$type<string[]>(),
+  link: text("link"),
+  buttonText: text("buttonText"),
 };
 
 export const table = sqliteTable(
@@ -32,7 +34,7 @@ export const table = sqliteTable(
     return {
       userIdIndex: index("postUserIdIndex").on(table.userId),
     };
-  }
+  },
 );
 
 export const relation = relations(table, ({ one, many }) => ({

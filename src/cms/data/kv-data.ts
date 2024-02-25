@@ -14,7 +14,7 @@ export function getDataListByPrefix(
   db,
   prefix = "",
   limit: number = 100,
-  cursor?: string
+  cursor?: string,
 ) {
   return db.list({ prefix, limit, cursor });
 }
@@ -23,7 +23,7 @@ export async function getDataByPrefix(
   db,
   prefix = "",
   limit?: number,
-  cursor?: string
+  cursor?: string,
 ) {
   const list = await getDataListByPrefix(db, prefix, limit, cursor);
   const content = [];
@@ -62,7 +62,7 @@ export function saveKVDataWithMetaData(
   site,
   contentType,
   value,
-  key = undefined
+  key = undefined,
 ) {
   const generatedKey = getKey(site, contentType, key);
   console.log("generatedKey", generatedKey);
@@ -91,16 +91,12 @@ export async function addToKvCache(ctx, kv, key, value) {
     key,
     cacheKey,
     createdOn,
-    value
+    value,
   });
 
-  await kv.put(
-    cacheKey,
-    JSON.stringify(value),
-    {
-      metadata: { createdOn },
-    }
-  );
+  await kv.put(cacheKey, JSON.stringify(value), {
+    metadata: { createdOn },
+  });
 
   // const result = await kv.put(cacheKey, JSON.stringify(value), {
   //   metadata: { createdOn} ,
@@ -195,7 +191,7 @@ export function extractContentType(contentTypeComponents) {
 export async function getContentType(db, contentTypeSystemId) {
   const contentType = await db.get(
     `site1::content-type::${contentTypeSystemId}`,
-    { type: "json" }
+    { type: "json" },
   );
   return contentType;
 }

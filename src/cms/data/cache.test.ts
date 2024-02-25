@@ -79,7 +79,7 @@ describe("insert", () => {
       ctx,
       "users",
       undefined,
-      urlKey
+      urlKey,
     );
 
     expect(inMemoryCacheResult.data.length).toBe(2);
@@ -103,7 +103,7 @@ describe("insert", () => {
     //kv cache for the urlKey should be empty
     const allCacheItems = await getRecordFromKvCache(
       KVDATA,
-      `cache::${urlKey}`
+      `cache::${urlKey}`,
     );
     expect(allCacheItems).toBeFalsy;
 
@@ -161,7 +161,7 @@ describe("update", () => {
       ctx,
       "users",
       undefined,
-      urlKey
+      urlKey,
     );
 
     expect(inMemoryCacheResult.data.length).toBe(2);
@@ -180,7 +180,7 @@ describe("update", () => {
     //kv cache for the urlKey should be empty
     const allCacheItems = await getRecordFromKvCache(
       KVDATA,
-      `cache::${urlKey}`
+      `cache::${urlKey}`,
     );
     expect(allCacheItems).toBeFalsy;
 
@@ -233,7 +233,7 @@ describe("delete", () => {
       ctx,
       "users",
       undefined,
-      urlKey
+      urlKey,
     );
 
     expect(inMemoryCacheResult.data.length).toBe(2);
@@ -251,7 +251,7 @@ describe("delete", () => {
     //kv cache for the urlKey should be empty
     const allCacheItems = await getRecordFromKvCache(
       KVDATA,
-      `cache::${urlKey}`
+      `cache::${urlKey}`,
     );
     expect(allCacheItems).toBeFalsy;
 

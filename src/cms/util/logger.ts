@@ -1,5 +1,4 @@
 export async function log(ctx, data) {
-
   console.log(data.message);
 
   const datadog_apikey =
@@ -41,7 +40,6 @@ export async function log(ctx, data) {
     //   },
     // },
     // }
-
 
     await fetch(dd_logsEndpoint, {
       method: "POST",

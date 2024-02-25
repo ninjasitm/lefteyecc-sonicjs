@@ -23,7 +23,7 @@ describe("admin should be restricted", () => {
       id: "aaa",
       email: "a@a.com",
       password: "password",
-      role: 'admin'
+      role: "admin",
     });
 
     let req = new Request("http://localhost/v1/users/aaa", {

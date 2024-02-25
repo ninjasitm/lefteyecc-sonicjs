@@ -59,7 +59,7 @@ authAPI.get(`/users/:id`, async (ctx) => {
     itemAccess?.read || true,
     ctx,
     id,
-    "users"
+    "users",
   );
 
   if (typeof accessControlResult === "object") {
@@ -85,7 +85,7 @@ authAPI.get(`/users/:id`, async (ctx) => {
     params,
     ctx.req.url,
     source,
-    undefined
+    undefined,
   );
 
   data.data = await filterReadFieldAccess(fieldsAccess, ctx, data.data);
@@ -100,7 +100,7 @@ authAPI.get(`/users/:id`, async (ctx) => {
       "read",
       id,
       undefined,
-      data
+      data,
     );
   }
   const end = Date.now();
@@ -130,13 +130,13 @@ authAPI.post(`/users/:setup?`, async (ctx) => {
       ctx,
       "create",
       undefined,
-      content
+      content,
     );
   }
   let authorized = await getOperationCreateResult(
     operationAccess?.create,
     ctx,
-    content.data
+    content.data,
   );
   if (!authorized) {
     const userExists = await hasUser(ctx);
@@ -148,13 +148,13 @@ authAPI.post(`/users/:setup?`, async (ctx) => {
     content.data = await filterCreateFieldAccess(
       fieldsAccess,
       ctx,
-      content.data
+      content.data,
     );
 
     if (userTableConfig.hooks?.resolveInput?.create) {
       content.data = await userTableConfig.hooks.resolveInput.create(
         ctx,
-        content.data
+        content.data,
       );
     }
     if (content.data?.confirm && content.data?.password) {
@@ -170,7 +170,7 @@ authAPI.post(`/users/:setup?`, async (ctx) => {
         "create",
         undefined,
         content,
-        result
+        result,
       );
     }
     return result;
@@ -195,7 +195,7 @@ authAPI.delete(`/users/:id`, async (ctx) => {
     itemAccess?.delete || true,
     ctx,
     id,
-    "users"
+    "users",
   );
   if (typeof accessControlResult === "object") {
     params = { ...params, ...accessControlResult };
@@ -216,7 +216,7 @@ authAPI.delete(`/users/:id`, async (ctx) => {
       params,
       ctx.req.url + "-delete-check",
       source || "fastest",
-      undefined
+      undefined,
     );
     if (data?.total > 0) {
       shouldDeleteUser = true;
@@ -232,7 +232,7 @@ authAPI.delete(`/users/:id`, async (ctx) => {
       "delete",
       id,
       undefined,
-      result
+      result,
     );
   }
   return result;
@@ -253,7 +253,7 @@ authAPI.put(`/users/:id`, async (ctx) => {
     ctx,
     id,
     "users",
-    content.data
+    content.data,
   );
   if (typeof accessControlResult === "object") {
     params = { ...params, ...accessControlResult };
@@ -274,7 +274,7 @@ authAPI.put(`/users/:id`, async (ctx) => {
       params,
       ctx.req.url + "-update-check",
       source || "fastest",
-      undefined
+      undefined,
     );
     if (data?.total > 0) {
       shouldUpdateUser = true;
@@ -286,13 +286,13 @@ authAPI.put(`/users/:id`, async (ctx) => {
       fieldsAccess,
       ctx,
       id,
-      content.data
+      content.data,
     );
     if (userTableConfig.hooks?.resolveInput?.update) {
       content.data = await userTableConfig.hooks.resolveInput.update(
         ctx,
         id,
-        content.data
+        content.data,
       );
     }
     result = await updateUser({ ctx, content }, id);
@@ -303,7 +303,7 @@ authAPI.put(`/users/:id`, async (ctx) => {
       "update",
       id,
       content,
-      result
+      result,
     );
   }
   return result;

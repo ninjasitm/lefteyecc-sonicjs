@@ -130,7 +130,7 @@ it("getRecords can accept custom function for retrieval of data", async () => {
     undefined,
     urlKey,
     "fastest",
-    func
+    func,
   );
 
   expect(result.data.foo).toBe("bar");
@@ -156,7 +156,7 @@ it("getRecords should return single record if if passed in", async () => {
     { id: "abc" },
     urlKey,
     "fastest",
-    undefined
+    undefined,
   );
 
   expect(result.data.firstName).toBe("John");
@@ -170,7 +170,7 @@ it("getRecords should return single record if if passed in", async () => {
     { id: "abc" },
     urlKey,
     "fastest",
-    undefined
+    undefined,
   );
 
   expect(cachedResult.data.firstName).toBe("John");

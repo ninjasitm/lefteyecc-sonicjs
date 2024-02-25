@@ -16,7 +16,7 @@ describe("Test the application", () => {
   it("kvtest should return 200", async () => {
     const res = await app.fetch(
       new Request("http://localhost/v1/cache/kv"),
-      env
+      env,
     );
     expect(res.status).toBe(200);
   });
@@ -108,7 +108,7 @@ describe("auto endpoints", () => {
       {
         firstName: "John",
         id: "a",
-      }
+      },
     );
 
     let payload = JSON.stringify({ data: { firstName: "Steve" }, id: "a" });
@@ -145,7 +145,7 @@ describe("auto endpoints", () => {
       {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-      }
+      },
     );
     let res = await app.fetch(req, env);
     expect(res.status).toBe(204);

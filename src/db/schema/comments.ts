@@ -29,7 +29,7 @@ export const table = sqliteTable(
       userIdIndex: index("commentsUserIdIndex").on(table.userId),
       postIdIndex: index("commentsPostIdIndex").on(table.postId),
     };
-  }
+  },
 );
 
 export const relation = relations(table, ({ one }) => ({

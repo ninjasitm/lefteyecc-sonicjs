@@ -36,7 +36,7 @@ export const hasUser = async (ctx: AppContext) => {
     {},
     "hasUserWithKeyCheck",
     "d1",
-    fn
+    fn,
   );
   return result.data.length > 0;
 };
@@ -57,7 +57,7 @@ export async function getApiAccessControlResult(
     operationAccessControl,
     ctx,
     args[0],
-    args[2]
+    args[2],
   );
   if (authorized) {
     authorized = await getItemAccessControlResult(
@@ -65,7 +65,7 @@ export async function getApiAccessControlResult(
       ctx,
       args[0],
       args[1],
-      args[2]
+      args[2],
     );
   }
   if (authorized) {
@@ -73,7 +73,7 @@ export async function getApiAccessControlResult(
       filterAccessControl,
       ctx,
       args[0],
-      args[2]
+      args[2],
     );
   }
 
@@ -106,14 +106,14 @@ async function getAccessControlResult(
 export async function getOperationCreateResult(
   create: ApiConfig["access"]["operation"]["create"],
   ctx: AppContext,
-  data: any
+  data: any,
 ) {
   return !!(await getAccessControlResult(create, ctx, data));
 }
 export async function getOperationReadResult(
   read: ApiConfig["access"]["operation"]["read"],
   ctx: AppContext,
-  id: string
+  id: string,
 ) {
   return !!(await getAccessControlResult(read, ctx, id));
 }
@@ -122,7 +122,7 @@ export async function getOperationUpdateResult(
   update: ApiConfig["access"]["operation"]["update"],
   ctx: AppContext,
   id: string,
-  data: any
+  data: any,
 ) {
   return !!(await getAccessControlResult(update, ctx, id, data));
 }
@@ -130,7 +130,7 @@ export async function getOperationUpdateResult(
 export async function getOperationDeleteResult(
   del: ApiConfig["access"]["operation"]["delete"],
   ctx: AppContext,
-  id: string
+  id: string,
 ) {
   return !!(await getAccessControlResult(del, ctx, id));
 }
@@ -138,7 +138,7 @@ export async function getOperationDeleteResult(
 export async function getFilterReadResult(
   read: ApiConfig["access"]["filter"]["read"],
   ctx: AppContext,
-  id: string
+  id: string,
 ) {
   return await getAccessControlResult(read, ctx, id);
 }
@@ -147,7 +147,7 @@ export async function getFilterUpdateResult(
   update: ApiConfig["access"]["filter"]["update"],
   ctx: AppContext,
   id: string,
-  data: any
+  data: any,
 ) {
   return await getAccessControlResult(update, ctx, id, data);
 }
@@ -155,7 +155,7 @@ export async function getFilterUpdateResult(
 export async function getFilterDeleteResult(
   del: ApiConfig["access"]["filter"]["delete"],
   ctx: AppContext,
-  id: string
+  id: string,
 ) {
   return await getAccessControlResult(del, ctx, id);
 }
@@ -165,7 +165,7 @@ export async function getItemAccessControlResult(
   ctx: AppContext,
   id?: string,
   table?: string,
-  data?: any
+  data?: any,
 ) {
   let authorized = true;
   if (typeof itemAccessControl === "boolean") {
@@ -176,7 +176,7 @@ export async function getItemAccessControlResult(
       table,
       { id },
       `doc/${table}/${id}`,
-      "fastest"
+      "fastest",
     );
 
     if (data) {
@@ -185,14 +185,14 @@ export async function getItemAccessControlResult(
         ctx,
         id,
         data,
-        doc
+        doc,
       ));
     } else {
       authorized = !!(await getAccessControlResult(
         itemAccessControl,
         ctx,
         id,
-        doc
+        doc,
       ));
     }
   }
@@ -202,7 +202,7 @@ export async function getItemAccessControlResult(
 export async function getItemReadResult(
   read: ApiConfig["access"]["item"]["read"],
   ctx: AppContext,
-  docs: any
+  docs: any,
 ) {
   let authorized = true;
   if (typeof read === "boolean") {
@@ -223,7 +223,7 @@ export async function getItemUpdateResult(
   ctx: AppContext,
   id: string,
   data: any,
-  table: string
+  table: string,
 ) {
   let authorized: boolean | SonicJSFilter = true;
   if (typeof update !== "function") {
@@ -234,7 +234,7 @@ export async function getItemUpdateResult(
       table,
       { id },
       `doc/${table}/${id}`,
-      "fastest"
+      "fastest",
     );
 
     authorized = await getAccessControlResult(update, ctx, id, data, doc);
@@ -246,7 +246,7 @@ export async function getItemDeleteResult(
   del: ApiConfig["access"]["item"]["delete"],
   ctx: AppContext,
   id: string,
-  table: string
+  table: string,
 ) {
   let authorized: boolean | SonicJSFilter = true;
   if (typeof del !== "function") {
@@ -257,7 +257,7 @@ export async function getItemDeleteResult(
       table,
       { id },
       `doc/${table}/${id}`,
-      "fastest"
+      "fastest",
     );
 
     authorized = await getAccessControlResult(del, ctx, id, doc);
@@ -267,7 +267,7 @@ export async function getItemDeleteResult(
 export async function filterCreateFieldAccess<D = any>(
   fields: ApiConfig["access"]["fields"],
   ctx: AppContext,
-  data: D
+  data: D,
 ): Promise<D> {
   let result: D = data;
   if (fields) {
@@ -302,7 +302,7 @@ export async function filterCreateFieldAccess<D = any>(
 export async function filterReadFieldAccess<D = any>(
   fields: ApiConfig["access"]["fields"],
   ctx: AppContext,
-  doc: D
+  doc: D,
 ): Promise<D> {
   let result: D = doc;
   if (fields) {
@@ -311,7 +311,7 @@ export async function filterReadFieldAccess<D = any>(
         return filterReadFieldAccess(fields, ctx, d);
       });
       const fieldResults = (await Promise.allSettled(
-        promises
+        promises,
       )) as PromiseSettledResult<D>[];
       result = fieldResults.reduce((acc: any[], r) => {
         if (r.status === "fulfilled") {
@@ -351,7 +351,7 @@ export async function filterUpdateFieldAccess<D = any>(
   fields: ApiConfig["access"]["fields"],
   ctx: AppContext,
   id: string,
-  data: D
+  data: D,
 ): Promise<D> {
   let result: D = data;
   if (fields) {

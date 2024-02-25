@@ -44,7 +44,7 @@ export interface ApiConfig {
         | ((
             ctx?: AppContext,
             id?: string,
-            data?: any
+            data?: any,
           ) => boolean | Promise<boolean>);
       // Determines if deleting a document from the table is allowed.
       delete?:
@@ -60,7 +60,7 @@ export interface ApiConfig {
         | SonicJSFilter
         | ((
             ctx?: AppContext,
-            id?: string
+            id?: string,
           ) => SonicJSFilter | Promise<SonicJSFilter>)
         | boolean
         | ((ctx: AppContext, id: string) => boolean | Promise<boolean>);
@@ -69,19 +69,19 @@ export interface ApiConfig {
         | ((
             ctx?: AppContext,
             id?: string,
-            data?: any
+            data?: any,
           ) => SonicJSFilter | Promise<SonicJSFilter>)
         | boolean
         | ((
             ctx?: AppContext,
             id?: string,
-            data?: any
+            data?: any,
           ) => boolean | Promise<boolean>);
       delete?:
         | SonicJSFilter
         | ((
             ctx?: AppContext,
-            id?: string
+            id?: string,
           ) => SonicJSFilter | Promise<SonicJSFilter>)
         | boolean
         | ((ctx?: AppContext, id?: string) => boolean | Promise<boolean>);
@@ -94,7 +94,7 @@ export interface ApiConfig {
         | ((
             ctx?: AppContext,
             id?: string,
-            doc?: any
+            doc?: any,
           ) => boolean | Promise<boolean>);
       update?:
         | boolean
@@ -102,14 +102,14 @@ export interface ApiConfig {
             ctx?: AppContext,
             id?: string,
             data?: any,
-            doc?: any
+            doc?: any,
           ) => boolean | Promise<boolean>);
       delete?:
         | boolean
         | ((
             ctx?: AppContext,
             id?: string,
-            doc?: any
+            doc?: any,
           ) => boolean | Promise<boolean>);
     };
     // Defines the access control for each field in the table.
@@ -134,7 +134,7 @@ export interface ApiConfig {
           | ((
               ctx?: AppContext,
               value?: string,
-              doc?: any
+              doc?: any,
             ) => boolean | Promise<boolean>);
         // Returns a boolean which allows or denies the ability to update a field's value. If false is returned, any passed values will be discarded.
         // If false is returned and you attempt to update the field's value, the operation will not throw an error however the field will be omitted from the update operation and the value will remain unchanged.
@@ -143,7 +143,7 @@ export interface ApiConfig {
           | ((
               ctx?: AppContext,
               id?: string,
-              data?: any
+              data?: any,
             ) => boolean | Promise<boolean>);
       };
     };
@@ -157,14 +157,14 @@ export interface ApiConfig {
       ctx: AppContext,
       operation: "create" | "read" | "update" | "delete",
       id?: string,
-      data?: any
+      data?: any,
     ) => void | Promise<void>;
     afterOperation?: (
       ctx: AppContext,
       operation: "create" | "read" | "update" | "delete",
       id?: string,
       data?: any,
-      result?: { data?: any } & Record<string, any>
+      result?: { data?: any } & Record<string, any>,
     ) => void | Promise<void>;
   };
   fields?: {

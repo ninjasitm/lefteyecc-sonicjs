@@ -36,7 +36,7 @@ export async function loadApis(ctx) {
         schema.table,
         {
           limit: 1,
-        }
+        },
       );
       if (results.length) {
         let link: link = {
@@ -45,7 +45,7 @@ export async function loadApis(ctx) {
         };
         recordApis.push(link);
       }
-    })
+    }),
   );
 
   return (

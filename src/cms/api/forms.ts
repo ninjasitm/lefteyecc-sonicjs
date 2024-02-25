@@ -101,7 +101,7 @@ function getField(fieldName): Field {
   return {
     type,
     key: fieldName,
-    label: voca.titleCase(voca.kebabCase(fieldName).replace('-', ' ')),
+    label: voca.titleCase(voca.kebabCase(fieldName).replace("-", " ")),
     disabled,
     autoExpand: type === "textarea",
     wysiwyg: type === "textarea",
@@ -115,8 +115,8 @@ function getField(fieldName): Field {
 
 function getFieldType(fieldName) {
   switch (fieldName) {
-    case 'body':
-      return 'textarea';
+    case "body":
+      return "textarea";
       break;
   }
   return fieldName === "password" ? "password" : "textfield";

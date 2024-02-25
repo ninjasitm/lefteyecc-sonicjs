@@ -99,7 +99,7 @@ if (gridWrapper) {
         .closest(".delete-btn")
         .getAttribute("data-delete-id");
       const userResponse = window.confirm(
-        "Do you really want to delete this item?"
+        "Do you really want to delete this item?",
       );
       if (userResponse) deleteItem(itemId);
     }
