@@ -20,8 +20,10 @@ export function getForm(ctx: AppContext, table) {
 
   const schema = getSchemaFromTable(table);
   const config = apiConfig.find((tbl) => tbl.table === table);
+  // console.debug("Schema", schema);
   for (var field in schema) {
-    let formField = getField(field);
+    // console.debug("Field", field);
+    let formField = getField(field, schema[field]);
     const metaType = config.fields?.[field]?.type || "auto";
     formField.metaType = metaType;
     if (formField.metaType === "auto") {
@@ -95,9 +97,9 @@ interface Field {
   rows?: number;
 }
 
-function getField(fieldName): Field {
+function getField(fieldName, field = null): Field {
   const disabled = fieldName == "id";
-  const type = getFieldType(fieldName);
+  const type = getFieldType(fieldName, field);
   return {
     type,
     key: fieldName,
@@ -113,11 +115,29 @@ function getField(fieldName): Field {
   };
 }
 
-function getFieldType(fieldName) {
-  switch (fieldName) {
-    case "body":
-      return "textarea";
-      break;
+function getFieldType(fieldName, field = null) {
+  if (field && field instanceof Object) {
+    switch (field.config.dataType) {
+      case 'boolean':
+        return "checkbox";
+        break;
+
+      default:
+        switch (fieldName) {
+          case "body":
+          case 'description':
+            return "textarea";
+            break;
+        }
+        return fieldName === "password" ? "password" : "textfield";
+        break;
+    }
+  } else {
+    switch (fieldName) {
+      case "body":
+        return "textarea";
+        break;
+    }
+    return fieldName === "password" ? "password" : "textfield";
   }
-  return fieldName === "password" ? "password" : "textfield";
 }

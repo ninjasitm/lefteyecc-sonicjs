@@ -1,0 +1,1 @@
+ALTER TABLE `home` RENAME COLUMN `tags` TO `titles`;
