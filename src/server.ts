@@ -48,9 +48,9 @@ app.use(
   "/v1/*",
   cors({
     origin: (origin) => {
-      return origin.indexOf("localhost") > 0 || origin.endsWith(".sonicjs.com")
+      return origin.indexOf("localhost") > 0 || origin.endsWith("lefteye.cc") || origin.endsWith("paul.com")
         ? origin
-        : "https://sonicjs.com";
+        : "https://lefteye.cc";
     },
   }),
 );
