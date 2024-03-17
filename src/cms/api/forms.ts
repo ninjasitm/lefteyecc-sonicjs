@@ -118,14 +118,14 @@ function getField(fieldName, field = null): Field {
 function getFieldType(fieldName, field = null) {
   if (field && field instanceof Object) {
     switch (field.config.dataType) {
-      case 'boolean':
+      case "boolean":
         return "checkbox";
         break;
 
       default:
         switch (fieldName) {
           case "body":
-          case 'description':
+          case "description":
             return "textarea";
             break;
         }

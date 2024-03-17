@@ -21,7 +21,7 @@ interface MediaFile {
 
 export const definition = {
   id: text("id").primaryKey(),
-  active: integer("active", { mode: 'boolean' }).default(false),
+  active: integer("active", { mode: "boolean" }).default(false),
   title: text("title"),
   description: text("description"),
   titles: text("titles", { mode: "json" }).$type<string[]>(),
@@ -40,7 +40,7 @@ export const table = sqliteTable(
   },
 );
 
-export const relation = relations(table, ({ }) => ({}));
+export const relation = relations(table, ({}) => ({}));
 
 export const access: ApiConfig["access"] = {
   operation: {
