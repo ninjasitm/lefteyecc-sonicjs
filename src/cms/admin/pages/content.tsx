@@ -244,7 +244,10 @@ export async function loadAdmin(ctx) {
 export async function loadEditContent(ctx, route, id, tbl?: string) {
   // const content = await getD1ByTableAndId(ctx.env.D1DATA, table, id);
   // console.log("loadEditContent", id, content);
-  const table = tbl || apiConfig.find((entry) => entry.route === route).table;
+  const table =
+    tbl ||
+    apiConfig.find((entry) => entry.route === route || entry.table === route)
+      .table;
 
   // console.log('loadEditContent content type', contentType)
 

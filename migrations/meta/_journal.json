@@ -64,6 +64,41 @@
       "when": 1710297445860,
       "tag": "0008_cuddly_arachne",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1710717026699,
+      "tag": "0009_windy_makkari",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1710720166959,
+      "tag": "0010_simple_wrecker",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1710720454225,
+      "tag": "0011_same_frank_castle",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1710720663146,
+      "tag": "0012_deep_wendigo",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1710722510462,
+      "tag": "0013_spicy_ender_wiggin",
+      "breakpoints": true
     }
   ]
 }

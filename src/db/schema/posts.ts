@@ -14,6 +14,8 @@ export const route = "posts";
 
 export const definition = {
   id: text("id").primaryKey(),
+  post_type: text("post_type").$type<DropdownItem[]>(),
+  icon: text("icon"),
   title: text("title"),
   body: text("body"),
   userId: text("userId"),

@@ -13,6 +13,8 @@ import { tusAPI } from "./cms/api/tus";
 import { AuthRequest, Session, User } from "lucia";
 import { initializeLucia } from "./cms/auth/lucia";
 
+globalThis.window = globalThis;
+
 export type Variables = {
   authRequest: AuthRequest;
   session?: Session;

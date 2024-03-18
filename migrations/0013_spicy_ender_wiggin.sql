@@ -1,0 +1,1 @@
+ALTER TABLE `posts` RENAME COLUMN `type` TO `post_type`;

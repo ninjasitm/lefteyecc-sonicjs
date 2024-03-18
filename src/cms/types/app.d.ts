@@ -10,3 +10,27 @@ declare namespace Lucia {
   };
   type DatabaseSessionAttributes = {};
 }
+
+interface UsesSection {
+  title: string;
+  items: UsesItem[];
+}
+interface UsesItem {
+  title: string;
+  link?: string;
+}
+
+interface MediaFile {
+  url: string;
+  type: string;
+  name: string;
+  size: number;
+  width: number;
+  height: number;
+  description: string;
+}
+
+interface DropdownItem {
+  text: string;
+  value: string | number;
+}

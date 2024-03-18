@@ -281,7 +281,7 @@ async function dataRoute(
   var params = qs.parse(ctx.req.query());
   params.limit = params.limit ?? 1000;
 
-  const table = apiConfig.find((entry) => entry.route === route).table;
+  const table = apiConfig.find((entry) => entry.route === route || entry.table === route).table;
   ctx.env.D1DATA = ctx.env.D1DATA ?? ctx.env.__D1_BETA__D1DATA;
 
   const records = await getRecords(
@@ -305,8 +305,7 @@ async function dataRoute(
     `;
 
     const editButton = `
-      <a href="/admin/content/edit/${authMode ? `auth/${route}` : route}/${
-        item.id
+      <a href="/admin/content/edit/${authMode ? `auth/${route}` : route}/${item.id
       }" class="text-decoration-none">
         <i class="bi bi-pencil"></i>
       </a>

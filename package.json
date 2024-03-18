@@ -1,8 +1,10 @@
 {
   "name": "sonicjs",
+  "private": true,
   "version": "0.0.3",
   "description": "Headless CMS based on Cloudflare Workers",
   "main": "src/server.ts",
+  "type": "module",
   "scripts": {
     "dev": "run-p dev:*",
     "dev:wrangler": "wrangler pages dev dist --env development --port 8786",
@@ -56,6 +58,8 @@
     "lokijs": "^1.5.12",
     "lucia": "^2.7.4",
     "qs": "^6.11.2",
+    "string": "^3.3.3",
+    "sugar": "^2.0.6",
     "uuid": "^9.0.0",
     "voca": "^1.4.1"
   }
