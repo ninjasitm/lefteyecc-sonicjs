@@ -79,6 +79,8 @@ export function getForm(ctx: AppContext, table) {
     label: "Save",
   });
 
+  console.log("Got form fields", JSON.stringify(formFields));
+
   return formFields;
 }
 interface Field {
@@ -98,24 +100,136 @@ interface Field {
 }
 
 function getField(fieldName, field = null): Field {
+  const result = getFieldComponent(fieldName, field);
+  // console.log("Got field", result);
+  return result;
+}
+
+/**
+ * Get the field json
+ * @url https://formio.github.io/formio.js/app/builder.html
+ * @param fieldName Get the field component for the given field name
+ * @param field
+ * @returns any
+ */
+function getFieldComponent(fieldName, field = null): any {
   const disabled = fieldName == "id";
   const type = getFieldType(fieldName, field);
-  return {
-    type,
-    key: fieldName,
-    label: voca.titleCase(voca.kebabCase(fieldName).replace("-", " ")),
-    disabled,
-    autoExpand: type === "textarea",
-    wysiwyg: type === "textarea",
-    rows: type === "textarea" ? 3 : undefined,
-    // placeholder: "Enter your first name.",
-    // input: true,
-    // tooltip: "Enter your <strong>First Name</strong>",
-    // description: "Enter your <strong>First Name</strong>",
-  };
+  let result: any;
+  switch (fieldName) {
+    case 'uses':
+      // result = {
+      //   "label": "Edit Uses",
+      //   "key": fieldName,
+      //   "type": "editgrid",
+      //   "input": true,
+      //   "components": [
+      //     {
+      //       "label": "Section Title",
+      //       "key": "title",
+      //       "type": "textfield",
+      //       "input": true
+      //     },
+      //     {
+      //       "label": "Edit Grid",
+      //       "key": "items",
+      //       "type": "editgrid",
+      //       "input": true,
+      //       "components": [
+      //         {
+      //           "label": "Section Item",
+      //           "applyMaskOn": "change",
+      //           "key": "title",
+      //           "type": "textfield",
+      //           "input": true
+      //         },
+      //         {
+      //           "label": "Item Link",
+      //           "applyMaskOn": "change",
+      //           "key": "link",
+      //           "type": "textfield",
+      //           "input": true
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // };
+      result = {
+        "label": "Uses",
+        "conditionalAddButton": "show = true",
+        "reorder": true,
+        "addAnotherPosition": "bottom",
+        "tableView": false,
+        "key": fieldName,
+        "type": 'datagrid',
+        "input": true,
+        "components": [
+          {
+            "label": "Section",
+            "applyMaskOn": "change",
+            "tableView": true,
+            "key": "section",
+            "type": "textfield",
+            "input": true
+          },
+          {
+            "label": "Section Items",
+            "conditionalAddButton": "show = true",
+            "reorder": true,
+            "addAnotherPosition": "bottom",
+            "defaultValue": [
+              {
+                "title": "",
+                "link": ""
+              }
+            ],
+            "key": "items",
+            "type": "datagrid",
+            "input": true,
+            "components": [
+              {
+                "label": "Title",
+                "applyMaskOn": "change",
+                "tableView": true,
+                "key": "title",
+                "type": "textfield",
+                "input": true
+              },
+              {
+                "label": "Link",
+                "applyMaskOn": "change",
+                "tableView": true,
+                "key": "link",
+                "type": "textfield",
+                "input": true
+              }
+            ]
+          }
+        ]
+      }
+      break;
+
+    default:
+      result = {
+        type,
+        key: fieldName,
+        label: voca.titleCase(voca.kebabCase(fieldName).replace("-", " ")),
+        disabled,
+        autoExpand: type === "textarea",
+        wysiwyg: type === "textarea",
+        rows: type === "textarea" ? 3 : undefined,
+        input: true,
+        // placeholder: "Enter your first name.",
+        // tooltip: "Enter your <strong>First Name</strong>",
+        // description: "Enter your <strong>First Name</strong>",
+      };
+      break;
+  }
+  return result;
 }
 
 function getFieldType(fieldName, field = null) {
+  console.log("Getting field type for", fieldName, field);
   if (field && field instanceof Object) {
     switch (field.config.dataType) {
       case "boolean":
@@ -136,6 +250,9 @@ function getFieldType(fieldName, field = null) {
     switch (fieldName) {
       case "body":
         return "textarea";
+        break;
+      case 'uses':
+        return 'datagrid';
         break;
     }
     return fieldName === "password" ? "password" : "textfield";

@@ -57,6 +57,6 @@ export const access: ApiConfig["access"] = {
 export const hooks: ApiConfig["hooks"] = {};
 export const fields: ApiConfig["fields"] = {
   uses: {
-    type: "json",
+    type: "auto",
   }
 };

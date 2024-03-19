@@ -175,7 +175,7 @@ export interface ApiConfig {
   fields?: {
     [field: string]:
     | {
-      type: "auto" | "string[]" | 'json';
+      type: "auto" | "string[]";
     }
     | {
       type: "file" | "file[]";

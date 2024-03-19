@@ -38,7 +38,7 @@ let mode;
 
 let currUppyField = "";
 
-async function initUppy(id) {
+async function initUppy (id) {
   const { Uppy, Url, Dashboard, Tus, ImageEditor } = await import(
     "https://releases.transloadit.com/uppy/v3.21.0/uppy.min.mjs"
   );
@@ -62,7 +62,7 @@ async function initUppy(id) {
   return uppy;
 }
 
-function chooseFileEventHandler(uppy, event) {
+function chooseFileEventHandler (uppy, event) {
   if (uppy) {
     let field = event.component.attributes["data-field"];
     const isArray = event.component.attributes["array"];
@@ -85,7 +85,7 @@ function chooseFileEventHandler(uppy, event) {
 
 let filesResponse;
 let fileModal;
-async function pickFileEventHandler(cb) {
+async function pickFileEventHandler (cb) {
   fileModal = fileModal || new bootstrap.Modal("#fileModal");
 
   if (filesResponse) {
@@ -142,7 +142,7 @@ async function pickFileEventHandler(cb) {
   }
 }
 
-function setupComponents(data) {
+function setupComponents (data) {
   const fileFields = data.filter(
     (c) => c.metaType === "file" || c.metaType === "file[]",
   );
@@ -215,22 +215,25 @@ function setupComponents(data) {
   };
 }
 
-function handleSubmitData(data) {
+function handleSubmitData (data) {
+  console.log("Submit data", data);
   Object.keys(data).forEach((key) => {
+    console.log("Checking submit key", key);
     const value = data[key];
-    if (Array.isArray(value)) {
-      data[key] = value.filter((v) => v[key]).map((v) => v[key]);
-      if (data[key].length === 0) {
-        data[key] = null;
-      }
-    }
+    // if (Array.isArray(value)) {
+    //   data[key] = value.filter((v) => v[key]).map((v) => v[key]);
+    //   if (data[key].length === 0) {
+    //     data[key] = null;
+    //   }
+    // }
     if (!data[key]) {
       data[key] = null;
     }
   });
+  console.log("Submit data after", data);
   return data;
 }
-function getFilePreviewElement(url, isImage, i, field) {
+function getFilePreviewElement (url, isImage, i, field) {
   if (i < 0) {
     i = 0;
   }
@@ -253,7 +256,7 @@ function getFilePreviewElement(url, isImage, i, field) {
   }
   console.error("bad arguments", url, isImage);
 }
-function onUploadSuccess(form) {
+function onUploadSuccess (form) {
   return (file, response) => {
     if (file && response) {
       const type = file.type;
@@ -313,7 +316,7 @@ const addPreviewElement = (value, element, i, field) => {
     );
   }
 };
-function setupPickExistingButton(fileFields, form) {
+function setupPickExistingButton (fileFields, form) {
   if (fileFields.length) {
     for (const field of fileFields) {
       const component = form.getComponent(field.key);
@@ -353,7 +356,7 @@ function setupPickExistingButton(fileFields, form) {
     }
   }
 }
-function setupFilePreviews(fileFields, form) {
+function setupFilePreviews (fileFields, form) {
   if (fileFields.length) {
     for (const field of fileFields) {
       const component = form.getComponent(field.key);
@@ -381,7 +384,7 @@ function setupFilePreviews(fileFields, form) {
     }
   }
 }
-function newContent() {
+function newContent () {
   console.log("contentType", route);
 
   axios.get(`/v1/form-components/${route}`).then((response) => {
@@ -455,7 +458,7 @@ function newContent() {
   });
 }
 
-function saveNewContent(data) {
+function saveNewContent (data) {
   delete data.data.submit;
   delete data.data.id;
 
@@ -470,7 +473,7 @@ function saveNewContent(data) {
     }
   });
 }
-function editContent() {
+function editContent () {
   const contentId = $("#formio").attr("data-id");
   route = $("#formio").attr("data-route");
   const routeWithoutAuth = route.replaceAll("/auth/", "/");
@@ -481,6 +484,7 @@ function editContent() {
       const { fileFields, contentType } = setupComponents(
         response.data.contentType,
       );
+      console.log("Got file fields", fileFields, contentType);
       response.data.contentType = contentType;
       // handle array values to the formio format
       if (response?.data?.data) {
@@ -489,11 +493,13 @@ function editContent() {
           try {
             value = JSON.parse(value);
           } catch (e) {
+            console.log(key, e);
             //empty by design
           }
+
           if (Array.isArray(value)) {
             response.data.data[key] = value.map((v) => {
-              return {
+              return v instanceof Object ? v : {
                 [key]: v,
               };
             });
@@ -546,10 +552,11 @@ function editContent() {
         const datagridComponents = form.components.filter(
           (c) => c.type === "datagrid",
         );
-        console.log("datagridComponents", datagridComponents);
+        console.log("datagridComponents", datagridComponents, form.components, response.data.data);
         datagridComponents.forEach((component) => {
           const key = component.component.key;
           const value = response?.data?.data?.[key];
+          console.log("Checking", key, value, response.data.data);
           if (!value && response.data.data) {
             response.data.data[key] = [{}];
           }
@@ -591,7 +598,7 @@ function editContent() {
     });
 }
 
-function addContent(data) {
+function addContent (data) {
   data.key = route;
 
   axios.post(`/v1/${route}`, data).then((response) => {
@@ -606,7 +613,7 @@ function addContent(data) {
   });
 }
 
-function updateContent(data) {
+function updateContent (data) {
   const id = data.id;
   var content = {};
   content.data = data;
@@ -629,7 +636,7 @@ function updateContent(data) {
     }
   });
 }
-function singularize(word) {
+function singularize (word) {
   if (word.endsWith("ses") || word.endsWith("xes") || word.endsWith("zes")) {
     return word.slice(0, -3);
   }
