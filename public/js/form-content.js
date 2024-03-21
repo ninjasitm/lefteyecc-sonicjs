@@ -66,13 +66,18 @@ function chooseFileEventHandler (uppy, event) {
   if (uppy) {
     let field = event.component.attributes["data-field"];
     const isArray = event.component.attributes["array"];
+    console.log("chooseFileEventHandler", event, field, isArray);
+    let tr;
     if (isArray) {
-      let tr = event.event.target;
-      while (tr.tagName !== "TR") {
+      tr = event.event.target;
+      while (tr && tr.tagName !== "TR" && tr.tagName !== 'LI') {
         tr = tr.parentElement;
       }
-      field = `${field}[${tr.rowIndex - 1}]`;
+      console.log("chooseFileEventHandler: parent", tr, tr.paentElement);
+      const index = tr.tagName === 'LI' ? Array.from(tr.parentElement?.children).slice(1).indexOf(tr) : tr.rowIndex - 1;
+      field = `${field}[${index}]`;
     }
+    console.log("chooseFileEventHandler", field, tr, tr.parentElement);
     currUppyField = field;
     const tus = uppy.getPlugin("Tus");
     tus.opts.headers["sonic-field"] = field;
@@ -146,6 +151,7 @@ function setupComponents (data) {
   const fileFields = data.filter(
     (c) => c.metaType === "file" || c.metaType === "file[]",
   );
+  let i = 0;
   return {
     fileFields,
     contentType: data.reduce((acc, c) => {
@@ -159,7 +165,7 @@ function setupComponents (data) {
           key: undefined,
           attributes: {
             "data-field": c.key,
-            key: "upload",
+            key: "upload"
           },
           label: "Upload File",
           type: "button",
@@ -173,6 +179,7 @@ function setupComponents (data) {
           attributes: {
             "data-field": c.key,
             key: "pick",
+            "data-index": i
           },
           label: "Pick Existing",
           type: "button",
@@ -182,34 +189,170 @@ function setupComponents (data) {
         });
       } else if (c.metaType == "file[]") {
         acc.push({
-          type: "datagrid",
-          label: c.label || c.key,
+          label: singularize(c.label || c.key),
           key: c.key,
+          type: "editgrid",
+          displayAsTable: false,
+          input: true,
           components: [
             {
-              ...c,
-              key: c.key,
-              disabled: true,
-              label: singularize(c.label || c.key),
-            },
-            {
-              key: undefined,
-              label: "Upload File",
+              label: "Photos",
               attributes: {
-                "data-field": c.key,
-                array: true,
-                key: "upload",
+                "data-index": i
               },
-              type: "button",
-              action: "event",
-              theme: "secondary",
-              readOnly: true,
-            },
-          ],
+              columns: [
+                {
+                  components: [
+                    {
+                      ...c,
+                      key: 'value',
+                      disabled: true,
+                      label: singularize(c.label || c.key),
+                    }
+                  ],
+                  width: 3,
+                  offset: 0,
+                  push: 0,
+                  pull: 0,
+                  size: "md",
+                  currentWidth: 3
+                },
+                {
+                  components: [
+                    {
+                      label: "Description",
+                      applyMaskOn: "change",
+                      autoExpand: false,
+                      tableView: true,
+                      key: "description",
+                      type: "textarea",
+                      input: true
+                    },
+                    {
+                      label: "Location",
+                      description: "Add a location to this image.",
+                      applyMaskOn: "change",
+                      tableView: true,
+                      key: "location",
+                      type: "textfield",
+                      input: true
+                    },
+                    {
+                      label: "Date / Time",
+                      format: "yyyy hh:mm a",
+                      tableView: false,
+                      datePicker: {
+                        disableWeekends: false,
+                        disableWeekdays: false
+                      },
+                      enableMinDateInput: false,
+                      enableMaxDateInput: false,
+                      key: "dateTime",
+                      type: "datetime",
+                      input: true,
+                      widget: {
+                        type: "calendar",
+                        displayInTimezone: "viewer",
+                        locale: "en",
+                        useLocaleSettings: false,
+                        allowInput: true,
+                        mode: "single",
+                        enableTime: true,
+                        noCalendar: false,
+                        format: "yyyy hh:mm a",
+                        hourIncrement: 1,
+                        minuteIncrement: 1,
+                        time_24hr: false,
+                        minDate: null,
+                        disableWeekends: false,
+                        disableWeekdays: false,
+                        maxDate: null
+                      }
+                    }
+                  ],
+                  width: 7,
+                  offset: 0,
+                  push: 0,
+                  pull: 0,
+                  size: "md",
+                  currentWidth: 7
+                },
+                {
+                  components: [
+                    {
+                      key: undefined,
+                      label: "Upload File",
+                      attributes: {
+                        "data-field": c.key,
+                        array: true,
+                        key: "upload",
+                        "data-index": i
+                      },
+                      type: "button",
+                      action: "event",
+                      theme: "secondary",
+                      readOnly: true,
+                    }, {
+                      ...c,
+                      key: undefined,
+                      attributes: {
+                        "data-field": c.key,
+                        key: "pick",
+                        "data-index": i
+                      },
+                      label: "Pick Existing",
+                      type: "button",
+                      action: "event",
+                      theme: "secondary",
+                      readOnly: true,
+                    }
+                  ],
+                  size: "md",
+                  width: 2,
+                  offset: 0,
+                  push: 0,
+                  pull: 0,
+                  currentWidth: 2
+                }
+              ],
+              key: "columns",
+              type: "columns",
+              input: false,
+              tableView: false
+            }
+          ]
         });
+        // acc.push({
+        //   type: "editgrid",
+        //   label: c.label || c.key,
+        //   key: c.key,
+        //   components: [
+        //     {
+        //       ...c,
+        //       key: c.key,
+        //       disabled: true,
+        //       label: singularize(c.label || c.key),
+        //     },
+        //     // metadataGrid,
+        //     {
+        //       key: undefined,
+        //       label: "Upload File",
+        //       attributes: {
+        //         "data-field": c.key,
+        //         array: true,
+        //         key: "upload",
+        //       },
+        //       type: "button",
+        //       action: "event",
+        //       theme: "secondary",
+        //       readOnly: true,
+        //     },
+        //   ],
+        // });
       } else {
         acc.push(c);
       }
+      i++;
       return acc;
     }, []),
   };
@@ -233,7 +376,9 @@ function handleSubmitData (data) {
   console.log("Submit data after", data);
   return data;
 }
+
 function getFilePreviewElement (url, isImage, i, field) {
+  console.log("getFilePreviewElement", { url, isImage, i, field });
   if (i < 0) {
     i = 0;
   }
@@ -267,36 +412,51 @@ function onUploadSuccess (form) {
         index = currUppyField.split("[")[1].split("]")[0];
       }
       let component = form.getComponent(field);
+      let components = component.components;
+      const isArray = components instanceof Array;
+      if (isArray && components.length) {
+        // For arrays with metadata this is the file url component
+        // component = components[index].columns[0][0].component;
+        component = components[index];
+      }
       let element = component.element;
       if (index > -1) {
         const textComponents = component.components.filter(
           (c) => c.type === "textfield",
         );
-        component = textComponents[index];
+        component = textComponents[isArray ? 0 : index] || component;
         element = document.querySelector(
           `[name="data[${field}][${index}][${field}]"]`,
         );
+        if (!element) {
+          element = document.querySelector(
+            `[name="data[${field}][${index}][value]"]`,
+          );
+        }
       }
-      console.log({ component, element });
+      console.log("onUploadSuccess", { field, index, form, component, element, components });
+      const url = new URL(response?.uploadURL).pathname;
       if (element) {
-        element.insertAdjacentHTML(
-          "afterend",
-          getFilePreviewElement(
-            response?.uploadURL,
-            type.includes("image"),
-            index,
-          ),
-        );
+        addPreviewElement(url, element, index, field, 'append');
+        // element.insertAdjacentHTML(
+        //   "afterend",
+        //   getFilePreviewElement(
+        //     response?.uploadURL,
+        //     type.includes("image"),
+        //     index,
+        //   ),
+        // );
       }
       if (component && response?.uploadURL) {
-        const url = new URL(response?.uploadURL).pathname;
+        console.log("onUploadSuccess: setting value", response?.uploadURL);
         component.setValue(url);
       }
     }
   };
 }
 
-const addPreviewElement = (value, element, i, field) => {
+const addPreviewElement = (value, element, i, field, mode) => {
+  console.log("addPreviewElement", { value, element, i, field, mode });
   i = i || 0;
   if (value && element) {
     let extensions = [
@@ -310,10 +470,14 @@ const addPreviewElement = (value, element, i, field) => {
       "avif",
     ];
     let regex = new RegExp(`\\.(${extensions.join("|")})$`, "i");
-    element.insertAdjacentHTML(
-      "afterend",
-      getFilePreviewElement(value, regex.test(value), i, field),
-    );
+    if (mode === 'replace') {
+      element.innerHTML = getFilePreviewElement(value, regex.test(value), i, field);
+    } else {
+      element.insertAdjacentHTML(
+        mode === 'append' ? 'afterend' : "beforeend",
+        getFilePreviewElement(value, regex.test(value), i, field),
+      )
+    };
   }
 };
 function setupPickExistingButton (fileFields, form) {
@@ -344,6 +508,7 @@ function setupPickExistingButton (fileFields, form) {
                     (c) => c.type === "textfield",
                   );
                   textComponents[i].setValue(v);
+                  console.debug("Adding existing file", v, input, i, field.key);
                   addPreviewElement(v, input, i, field.key);
                   fileModal.hide();
                 });
@@ -358,30 +523,53 @@ function setupPickExistingButton (fileFields, form) {
 }
 function setupFilePreviews (fileFields, form) {
   if (fileFields.length) {
-    for (const field of fileFields) {
+    fileFields.forEach((field, index) => {
       const component = form.getComponent(field.key);
-      const value = component._data[field.key];
+      console.log("setupFilePreviews: prepare", { field, index, _data: component._data });
+      const object = component._data[field.key];
       const element = component?.element;
+      console.log("setupFilePreviews: prepare complete", { index, object, element, key: field.key, object, _data: component._data });
+      if (Array.isArray(object)) {
+        object.forEach((v, i) => {
+          console.log("setupFilePreviews: handle for array item", i, v);
+          handeFilePrefiewFor(element, v.value || v[field.key] || v, i, field);
+        });
+      } else {
+        console.log("setupFilePreviews: handle for single");
+        handeFilePrefiewFor(component.element, object, index, field);
+      }
 
-      const trs = element.querySelectorAll("tr");
-      if (trs.length) {
-        for (let i = 0; i < trs.length; i++) {
-          const tr = trs[i + 1];
+      function handeFilePrefiewFor (element, value, index, field) {
+        console.log("handeFilePrefiewFor", { element, value, index, field });
+        let trs = Array.from(element.querySelectorAll("tr,li"));
+        let v = '';
+        const isEditGrid = element.querySelectorAll('li').length > 0;
+        if (isEditGrid) {
+          // This is because the edit grid for files has a li header
+          trs = trs.slice(1);
+        }
+        v = v instanceof Array ? value[0] : value;
+        if (trs.length) {
+          console.log("Found elements for file field", { key: field.key, length: trs.length, trs });
+          const tr = trs[index];
           if (tr) {
-            const td = tr.querySelector("td");
-            if (Array.isArray(value)) {
-              const v = value[i];
-              const input = td.querySelector("input");
-              if (v) {
-                addPreviewElement(v[field.key], input, i, field.key);
+            const td = tr.querySelector("td,div[class=row]");
+            v = v instanceof Object ? v.value || v[field.key] || '' : v;
+            console.log("Found element data container", { tr, td, value, v, isArray: Array.isArray(value) });
+            if (v != undefined && td) {
+              const input = td.querySelector("input,div:first-child");
+              if (v != undefined) {
+                console.log("Adding preview element for array element", { v, input, index, index, field });
+                addPreviewElement(v, input, index, field.key, 'prepend');
               }
             }
           }
+        } else {
+          console.log("Adding preview element for single element");
+          addPreviewElement(value, element, 0, field.key);
         }
-      } else {
-        addPreviewElement(value, element, 0, field.key);
       }
-    }
+    });
   }
 }
 function newContent () {
@@ -493,7 +681,7 @@ function editContent () {
           try {
             value = JSON.parse(value);
           } catch (e) {
-            console.log(key, e);
+            // console.log(key, e);
             //empty by design
           }
 

@@ -40,7 +40,7 @@ export function getForm(ctx: AppContext, table) {
         components: [
           {
             ...c,
-            key: `${c.key}`,
+            key: 'value',
             label: singularize(c.label || c.key),
           },
         ],
