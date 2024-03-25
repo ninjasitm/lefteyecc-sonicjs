@@ -254,6 +254,9 @@ function getFieldType(fieldName, field = null) {
       case 'uses':
         return 'datagrid';
         break;
+
+      case 'date':
+        return 'datetime';
     }
     return fieldName === "password" ? "password" : "textfield";
   }

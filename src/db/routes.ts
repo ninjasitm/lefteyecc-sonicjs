@@ -4,6 +4,7 @@ import * as pageHome from "./schema/page-home";
 import * as pageContent from "./schema/page-content";
 import * as pageUses from "./schema/page-uses";
 import * as pageNow from "./schema/page-now";
+import * as pageTimeline from "./schema/page-timeline";
 import * as comments from "./schema/comments";
 import * as categories from "./schema/categories";
 import * as categoriesToPosts from "./schema/categoriesToPosts";
@@ -193,6 +194,7 @@ export const tableSchemas = {
   pageContent,
   pageUses,
   pageNow,
+  pageTimeline,
   posts,
   comments,
   categories,

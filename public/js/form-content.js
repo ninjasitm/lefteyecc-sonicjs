@@ -77,7 +77,7 @@ function chooseFileEventHandler (uppy, event) {
       const index = tr.tagName === 'LI' ? Array.from(tr.parentElement?.children).slice(1).indexOf(tr) : tr.rowIndex - 1;
       field = `${field}[${index}]`;
     }
-    console.log("chooseFileEventHandler", field, tr, tr.parentElement);
+    console.log("chooseFileEventHandler", field, tr, tr?.parentElement);
     currUppyField = field;
     const tus = uppy.getPlugin("Tus");
     tus.opts.headers["sonic-field"] = field;
