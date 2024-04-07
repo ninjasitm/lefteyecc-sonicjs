@@ -349,6 +349,40 @@ function setupComponents (data) {
         //     },
         //   ],
         // });
+      } else if (c.metaType === 'date') {
+        acc.push({
+          ...c,
+          ...{
+            format: "MMM, d, yyyy",
+            tableView: false,
+            datePicker: {
+              disableWeekends: false,
+              disableWeekdays: false
+            },
+            enableMinDateInput: false,
+            enableMaxDateInput: false,
+            type: "datetime",
+            input: true,
+            widget: {
+              type: "calendar",
+              displayInTimezone: "viewer",
+              locale: "en",
+              useLocaleSettings: false,
+              allowInput: true,
+              mode: "single",
+              enableTime: true,
+              noCalendar: false,
+              format: "yyyy hh:mm a",
+              hourIncrement: 1,
+              minuteIncrement: 1,
+              time_24hr: false,
+              minDate: null,
+              disableWeekends: false,
+              disableWeekdays: false,
+              maxDate: null
+            }
+          }
+        });
       } else {
         acc.push(c);
       }
@@ -483,6 +517,7 @@ const addPreviewElement = (value, element, i, field, mode) => {
 function setupPickExistingButton (fileFields, form) {
   if (fileFields.length) {
     for (const field of fileFields) {
+      console.log("setupPickExistingButton", field.key, "form", form);
       const component = form.getComponent(field.key);
       const element = component?.element;
 
@@ -590,6 +625,9 @@ function newContent () {
       components: response.data,
     }).then(function (form) {
       let uppy;
+      console.log("[newContent]: Formio form", form);
+      globalThis.form = form;
+      window.form = form;
       if (fileFields.length) {
         const formio = document.getElementById("formio");
         const childDiv = document.createElement("div");
@@ -636,6 +674,7 @@ function newContent () {
         } else if (event.component.attributes.key === "pick") {
           pickFileEventHandler((v) => {
             const field = event.component.attributes["data-field"];
+            console.log("pickFileEventHandler", { v, field, event });
             const component = form.getComponent(field);
             component.setValue(v);
             fileModal.hide();
@@ -703,6 +742,9 @@ function editContent () {
         components: response.data.contentType,
       }).then(function (form) {
         if (fileFields.length) {
+          console.log("[editContent]: Formio form", form);
+          globalThis.form = form;
+          window.form = form;
           const formio = document.getElementById("formio");
           const childDiv = document.createElement("div");
           childDiv.id = "files-drag-drop";

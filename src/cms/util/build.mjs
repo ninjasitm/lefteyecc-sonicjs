@@ -32,7 +32,7 @@ import { copy } from "esbuild-plugin-copy";
           from: ["./public/images/*"],
           to: ["./dist/public/images"],
         },
-      }),
+      })
     ],
   });
   // console.log(res)

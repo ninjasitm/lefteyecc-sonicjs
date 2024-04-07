@@ -176,7 +176,7 @@ export interface ApiConfig {
   fields?: {
     [field: string]:
     | {
-      type: "auto" | "string[]";
+      type: "auto" | "string[]" | "number[]" | "boolean[]" | "date[]" | "date";
     }
     | {
       type: "file" | "file[]";
@@ -206,14 +206,14 @@ export const tableSchemas = {
 for (const key of Object.keys(tableSchemas)) {
   const table = tableSchemas[key];
   if (table.route) {
-    apiConfig.push({
-      table: table.tableName,
-      route: table.route,
-      access: table.access,
-      hooks: table.hooks,
-      fields: table.fields,
-    });
-    // console.log("Creating route for ", table.route, StringHelper(table.route).camelize().s);
+    // apiConfig.push({
+    //   table: table.tableName,
+    //   route: table.route,
+    //   access: table.access,
+    //   hooks: table.hooks,
+    //   fields: table.fields,
+    // });
+    console.log("Creating route for ", table.route, StringHelper(table.route).camelize().s);
     apiConfig.push({
       table: table.tableName,
       route: StringHelper(table.route).camelize().s,

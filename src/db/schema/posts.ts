@@ -14,15 +14,16 @@ export const route = "posts";
 
 export const definition = {
   id: text("id").primaryKey(),
-  post_type: text("post_type").$type<DropdownItem[]>(),
+  postType: text("postType").$type<DropdownItem[]>(),
   icon: text("icon"),
   title: text("title"),
+  link: text("link"),
+  publishedOn: text("publishedOn"),
   body: text("body"),
   userId: text("userId"),
   image: text("image"),
   images: text("images", { mode: "json" }).$type<string[]>(),
   tags: text("tags", { mode: "json" }).$type<string[]>(),
-  link: text("link"),
   buttonText: text("buttonText"),
 };
 
@@ -122,4 +123,7 @@ export const fields: ApiConfig["fields"] = {
   tags: {
     type: "string[]",
   },
+  publishedOn: {
+    type: "date",
+  }
 };

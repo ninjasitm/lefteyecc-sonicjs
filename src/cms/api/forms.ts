@@ -117,6 +117,21 @@ function getFieldComponent(fieldName, field = null): any {
   const type = getFieldType(fieldName, field);
   let result: any;
   switch (fieldName) {
+    case 'link':
+      result = {
+        type: 'url',
+        key: fieldName,
+        label: voca.titleCase(voca.kebabCase(fieldName).replace("-", " ")),
+        disabled,
+        description: 'Enter a link for the item if it exists. If a link is provide the preview information will be fetched and will populate missing fields automatically',
+        tooltip: 'Enter a link for the item if it exists. If a link is provide the preview information will be fetched and will populate missing fields automatically',
+        input: true,
+        attributes: {
+          role: "link-preview"
+        },
+        placeholder: "Enter a link ...",
+      };
+      break;
     case 'uses':
       // result = {
       //   "label": "Edit Uses",

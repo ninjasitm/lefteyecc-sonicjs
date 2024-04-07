@@ -1,7 +1,8 @@
 // admin js
-
 $(document).ready(function () {
+  console.log("[Admin JS]: Ready");
   setupClearCacheButtons();
+  setupLinkPreviewJs();
   applyTimeSince();
 
   $(".delete-content").on("click", function () {
@@ -18,7 +19,7 @@ $(document).ready(function () {
   // debugger;
 });
 
-function applyTimeSince() {
+function applyTimeSince () {
   $(".timeSince").each(function (index, value) {
     // console.log(value);
     const timestamp = $(this).attr("datetime");
@@ -26,7 +27,7 @@ function applyTimeSince() {
   });
 }
 
-function timeSince(date) {
+function timeSince (date) {
   console.log("timesince for", date);
 
   var seconds = Math.floor((new Date() - date) / 1000);
@@ -55,7 +56,7 @@ function timeSince(date) {
   return Math.floor(seconds) + " seconds ago";
 }
 
-function setupClearCacheButtons() {
+function setupClearCacheButtons () {
   $("#clear-cache-in-memory").on("click", function () {
     axios.get(`/v1/cache/clear-in-memory`).then((response) => {
       if (response.status === 200) {
@@ -79,4 +80,42 @@ function setupClearCacheButtons() {
       }
     });
   });
+}
+
+function setupLinkPreviewJs () {
+  setTimeout(() => {
+    const inputs = $("[role='link-preview']");
+    console.log("[Link Preview]: setupLinkPreviewJs", inputs);
+    $("[role='link-preview']").on("blur", function () {
+      const url = $(this).val();
+      console.log("[Link Preview]: url", url);
+      axios.get(`/admin-helper/link-preview?url=${url}`).then(function (result) {
+        const data = result.data;
+        console.log("[Link Preview]: Data", data);
+        if (data.success) {
+          const fields = [
+            { selector: "[name='data\[title\]']", key: 'title', value: data.data.title },
+            { selector: "[name='data\[body\]']", key: 'body', value: data.data.description },
+            { selector: "[name='data\[buttonText\]']", key: 'buttonText', value: 'Read More' },
+            { selector: "[name='data\[postType\]']", key: 'postType', value: 'external-link' },
+            { selector: "[name='data\[image\]']", key: 'image', value: data.data.images[0] }
+          ];
+          console.log("Form", form);
+          for (field of fields) {
+            const element = $(field.selector);
+            const component = form.getComponent(field.key);
+            if (!component) continue;
+            console.log("Component for field", { key: field.key, component, currentValue: component.getValue() });
+            if (field.value && component.getValue() === "" || !component.getValue()) {
+              console.log("Setting value for", field.key, field.value);
+              component.setValue(field.value);
+            }
+            // Only fill in if a value hasn't been filled in
+            // if (field.value && element.val() === "") element.val(field.value);
+          }
+        }
+      });
+    });
+  }, 2000);
+  // console.log("setupLinkPreviewJs", index, value);
 }
